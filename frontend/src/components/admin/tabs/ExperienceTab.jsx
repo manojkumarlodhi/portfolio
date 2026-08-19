@@ -97,17 +97,18 @@ export function ExperienceTab() {
   };
 
   return (
-    <div className="space-y-6 animate-rise">
+    <div className="space-y-5 sm:space-y-6 animate-rise">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg font-bold font-display">Experience Timeline ({experience.length})</h3>
+          <h3 className="text-base sm:text-lg font-bold font-display">Experience Timeline ({experience.length})</h3>
           <p className="text-xs text-muted-foreground">Manage employment & training history</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <button
             onClick={load}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-primary cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+            title="Refresh experience"
           >
             <RefreshCw className="size-3.5" />
           </button>
@@ -118,9 +119,9 @@ export function ExperienceTab() {
               setForm(EMPTY_EXP);
               setShowForm(true);
             }}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow cursor-pointer hover:scale-[1.02]"
+            className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow cursor-pointer hover:scale-[1.02] transition-transform"
           >
-            <Plus className="size-4" /> Add Experience Entry
+            <Plus className="size-4" /> Add Experience
           </button>
         </div>
       </div>
@@ -129,10 +130,10 @@ export function ExperienceTab() {
 
       {/* Add/Edit Form */}
       {showForm && (
-        <form onSubmit={handleSave} className="surface-card space-y-4 p-5 border-primary/40">
+        <form onSubmit={handleSave} className="surface-card space-y-4 p-4 sm:p-5 border-primary/40">
           <h4 className="text-sm font-bold">{editingId ? "Edit Experience" : "Add Experience Entry"}</h4>
 
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <div>
               <label className="block text-xs font-medium text-muted-foreground">Type</label>
               <select
@@ -166,7 +167,7 @@ export function ExperienceTab() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-xs font-medium text-muted-foreground">Period</label>
               <input
@@ -209,18 +210,18 @@ export function ExperienceTab() {
             />
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-2">
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="rounded-xl border border-border px-4 py-1.5 text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+              className="rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground hover:text-foreground cursor-pointer text-center"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-1.5 text-xs font-semibold text-primary-foreground shadow cursor-pointer disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground shadow cursor-pointer disabled:opacity-60"
             >
               {saving && <Loader2 className="size-3.5 animate-spin" />} {saving ? "Saving..." : "Save Experience"}
             </button>
@@ -231,36 +232,37 @@ export function ExperienceTab() {
       {/* Loading State */}
       {loading && (
         <div className="flex items-center justify-center py-12 text-muted-foreground gap-2">
-          <Loader2 className="size-5 animate-spin" /> Loading experience...
+          <Loader2 className="size-5 animate-spin text-primary" /> Loading experience...
         </div>
       )}
 
       {/* Experience Cards */}
       {!loading && (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {experience.map((e) => (
-            <div key={e.id} className="surface-card p-5">
-              <div className="flex items-start justify-between">
-                <div>
+            <div key={e.id} className="surface-card p-4 sm:p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
                   <span className="rounded-full bg-primary/15 px-2.5 py-0.5 text-[0.65rem] font-semibold text-primary">
                     {e.type}
                   </span>
-                  <h4 className="mt-1.5 text-sm font-bold">{e.company}</h4>
+                  <h4 className="mt-1.5 text-sm font-bold text-foreground">{e.company}</h4>
                   <p className="text-xs text-primary font-medium">{e.role}</p>
                   {e.period && <p className="text-[0.7rem] text-muted-foreground mt-0.5">{e.period}</p>}
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
                     onClick={() => handleEdit(e)}
-                    className="rounded p-1 text-xs text-muted-foreground hover:text-primary cursor-pointer"
+                    className="rounded px-2 py-1 text-xs text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors cursor-pointer"
                   >
                     Edit
                   </button>
                   <button
                     type="button"
                     onClick={() => handleDelete(e.id)}
-                    className="rounded p-1 text-muted-foreground hover:text-destructive cursor-pointer"
+                    className="rounded p-1 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+                    title="Delete entry"
                   >
                     <Trash2 className="size-3.5" />
                   </button>

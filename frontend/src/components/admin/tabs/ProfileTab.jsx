@@ -185,17 +185,17 @@ export function ProfileTab({ isOpen }) {
     (form.resumeUrl && form.resumeUrl !== "#" && form.resumeUrl.startsWith("http"));
 
   return (
-    <form onSubmit={handleSaveProfile} className="space-y-5 animate-rise max-w-3xl">
+    <form onSubmit={handleSaveProfile} className="space-y-4 sm:space-y-5 animate-rise max-w-4xl">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg font-bold font-display">Edit Profile &amp; Hero Information</h3>
+          <h3 className="text-base sm:text-lg font-bold font-display">Edit Profile &amp; Hero Information</h3>
           <p className="text-xs text-muted-foreground">Changes saved directly to MySQL database</p>
         </div>
         <button
           type="submit"
           disabled={saving}
-          className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground cursor-pointer shadow-md hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-2.5 sm:py-2 text-xs font-semibold text-primary-foreground cursor-pointer shadow-md hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed w-full sm:w-auto"
         >
           {saving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
           {saving ? "Saving..." : "Save Profile"}
@@ -204,7 +204,7 @@ export function ProfileTab({ isOpen }) {
 
       {saved && (
         <div className="flex items-center gap-2 rounded-xl bg-primary/20 p-3 text-xs text-primary">
-          <Check className="size-4" /> Profile saved to database successfully!
+          <Check className="size-4 shrink-0" /> Profile saved to database successfully!
         </div>
       )}
       {saveError && (
@@ -214,7 +214,7 @@ export function ProfileTab({ isOpen }) {
       )}
 
       {/* Name / Role / Monogram */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {[
           ["Full Name", "name", "text"],
           ["Role Title", "role", "text"],
@@ -227,7 +227,7 @@ export function ProfileTab({ isOpen }) {
               maxLength={key === "monogram" ? 4 : undefined}
               value={form[key] || ""}
               onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-              className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-xs sm:text-sm text-foreground focus:border-primary focus:outline-none"
             />
           </div>
         ))}
@@ -240,7 +240,7 @@ export function ProfileTab({ isOpen }) {
           type="text"
           value={form.tagline || ""}
           onChange={(e) => setForm({ ...form, tagline: e.target.value })}
-          className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+          className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-xs sm:text-sm text-foreground focus:border-primary focus:outline-none"
         />
       </div>
 
@@ -251,12 +251,12 @@ export function ProfileTab({ isOpen }) {
           rows={4}
           value={form.summary || ""}
           onChange={(e) => setForm({ ...form, summary: e.target.value })}
-          className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+          className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-xs sm:text-sm text-foreground focus:border-primary focus:outline-none"
         />
       </div>
 
       {/* Location / Email / Phone */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {[
           ["Location", "location", "text"],
           ["Email", "email", "email"],
@@ -268,14 +268,14 @@ export function ProfileTab({ isOpen }) {
               type={type}
               value={form[key] || ""}
               onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-              className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-xs sm:text-sm text-foreground focus:border-primary focus:outline-none"
             />
           </div>
         ))}
       </div>
 
       {/* GitHub / LinkedIn */}
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         {[
           ["GitHub URL", "github"],
           ["LinkedIn URL", "linkedin"],
@@ -286,7 +286,7 @@ export function ProfileTab({ isOpen }) {
               type="text"
               value={form[key] || ""}
               onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-              className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+              className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-xs sm:text-sm text-foreground focus:border-primary focus:outline-none"
             />
           </div>
         ))}
@@ -302,7 +302,7 @@ export function ProfileTab({ isOpen }) {
           placeholder="https://drive.google.com/file/..."
           value={form.resumeUrl && form.resumeUrl !== "#" ? form.resumeUrl : ""}
           onChange={(e) => setForm({ ...form, resumeUrl: e.target.value })}
-          className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+          className="mt-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-xs sm:text-sm text-foreground focus:border-primary focus:outline-none"
         />
         <p className="mt-1 text-[0.65rem] text-muted-foreground">
           Used when no PDF is uploaded to Cloudinary above.
@@ -310,11 +310,11 @@ export function ProfileTab({ isOpen }) {
       </div>
 
       {/* ── Resume PDF Upload Card ── */}
-      <div className="surface-card p-5 space-y-3">
-        <div className="flex items-center justify-between">
+      <div className="surface-card p-4 sm:p-5 space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h4 className="text-sm font-bold font-display">Upload Resume PDF</h4>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <h4 className="text-xs sm:text-sm font-bold font-display">Upload Resume PDF</h4>
+            <p className="text-[0.7rem] sm:text-xs text-muted-foreground mt-0.5">
               Stored on Cloudinary CDN — becomes the Resume button download link
             </p>
           </div>
@@ -323,7 +323,7 @@ export function ProfileTab({ isOpen }) {
               type="button"
               onClick={handleDeleteResume}
               disabled={deletingResume}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/20 cursor-pointer disabled:opacity-60 transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/20 cursor-pointer disabled:opacity-60 transition-colors w-full sm:w-auto"
             >
               {deletingResume ? <Loader2 className="size-3.5 animate-spin" /> : <Trash2 className="size-3.5" />}
               {deletingResume ? "Removing..." : "Delete Resume"}
@@ -338,7 +338,7 @@ export function ProfileTab({ isOpen }) {
         )}
 
         {hasResume ? (
-          <div className="flex items-center gap-3 rounded-xl border border-primary/40 bg-primary/5 px-4 py-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 rounded-xl border border-primary/40 bg-primary/5 px-4 py-3">
             <FileText className="size-5 text-primary shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-xs font-semibold text-primary">
@@ -351,18 +351,18 @@ export function ProfileTab({ isOpen }) {
             {uploadingResume ? (
               <Loader2 className="size-4 animate-spin text-primary shrink-0" />
             ) : (
-              <label className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary hover:text-primary cursor-pointer transition-colors shrink-0">
+              <label className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary hover:text-primary cursor-pointer transition-colors w-full sm:w-auto shrink-0">
                 <Upload className="size-3.5" /> Replace
                 <input ref={resumeInputRef} type="file" accept="application/pdf" onChange={handleResumeUpload} className="hidden" />
               </label>
             )}
           </div>
         ) : (
-          <label className="flex cursor-pointer items-center justify-center gap-3 rounded-xl border-2 border-dashed border-border bg-background px-5 py-6 text-sm text-muted-foreground hover:border-primary hover:text-primary transition-colors">
-            {uploadingResume ? <Loader2 className="size-5 animate-spin" /> : <Upload className="size-5 shrink-0" />}
-            <div className="text-center">
+          <label className="flex cursor-pointer flex-col sm:flex-row items-center justify-center gap-3 rounded-xl border-2 border-dashed border-border bg-background px-4 sm:px-5 py-5 sm:py-6 text-xs sm:text-sm text-muted-foreground hover:border-primary hover:text-primary transition-colors">
+            {uploadingResume ? <Loader2 className="size-5 animate-spin" /> : <Upload className="size-5 shrink-0 text-primary" />}
+            <div className="text-center sm:text-left">
               <p className="font-semibold">{uploadingResume ? "Uploading to Cloudinary..." : "Click to upload PDF resume"}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">PDF only • Max 25 MB • Cloudinary CDN</p>
+              <p className="text-[0.65rem] sm:text-xs text-muted-foreground mt-0.5">PDF only • Max 25 MB • Cloudinary CDN</p>
             </div>
             <input ref={resumeInputRef} type="file" accept="application/pdf" onChange={handleResumeUpload} className="hidden" disabled={uploadingResume} />
           </label>
@@ -370,11 +370,11 @@ export function ProfileTab({ isOpen }) {
       </div>
 
       {/* ── Profile Photo Card ── */}
-      <div className="surface-card p-5 space-y-3">
-        <div className="flex items-center justify-between">
+      <div className="surface-card p-4 sm:p-5 space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h4 className="text-sm font-bold font-display">Profile Photo</h4>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <h4 className="text-xs sm:text-sm font-bold font-display">Profile Photo</h4>
+            <p className="text-[0.7rem] sm:text-xs text-muted-foreground mt-0.5">
               Displayed in Hero orbit — stored on Cloudinary CDN
             </p>
           </div>
@@ -383,7 +383,7 @@ export function ProfileTab({ isOpen }) {
               type="button"
               onClick={handleDeletePhoto}
               disabled={deletingPhoto}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/20 cursor-pointer disabled:opacity-60 transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/20 cursor-pointer disabled:opacity-60 transition-colors w-full sm:w-auto"
             >
               {deletingPhoto ? <Loader2 className="size-3.5 animate-spin" /> : <ImageOff className="size-3.5" />}
               {deletingPhoto ? "Removing..." : "Delete Photo"}
@@ -397,13 +397,13 @@ export function ProfileTab({ isOpen }) {
           </div>
         )}
 
-        <div className="flex items-center gap-6">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
           {/* Preview */}
-          <div className="relative size-24 shrink-0 overflow-hidden rounded-full border-2 border-primary/50 bg-background shadow-md">
+          <div className="relative size-20 sm:size-24 shrink-0 overflow-hidden rounded-full border-2 border-primary/50 bg-background shadow-md">
             {photoPreview ? (
               <img src={photoPreview} alt="Profile preview" className="size-full object-cover" />
             ) : (
-              <div className="grid size-full place-items-center [background:var(--gradient-primary)] text-primary-foreground font-bold text-2xl tracking-widest">
+              <div className="grid size-full place-items-center [background:var(--gradient-primary)] text-primary-foreground font-bold text-xl sm:text-2xl tracking-widest">
                 {form.monogram || (form.name ? form.name.split(" ").map((n) => n[0]).join("") : "ML")}
               </div>
             )}
@@ -415,7 +415,7 @@ export function ProfileTab({ isOpen }) {
           </div>
 
           {/* Controls */}
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 w-full space-y-3">
             <div>
               <label className="block text-xs font-medium text-muted-foreground">
                 Photo URL (paste direct link — OR upload file below)
@@ -429,7 +429,7 @@ export function ProfileTab({ isOpen }) {
                     setPhotoPreview(e.target.value);
                     setForm((prev) => ({ ...prev, photoUrl: e.target.value }));
                   }}
-                  className="flex-1 rounded-xl border border-border bg-background px-3.5 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
+                  className="flex-1 min-w-0 rounded-xl border border-border bg-background px-3.5 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
                 />
                 {photoPreview && (
                   <button
@@ -439,7 +439,7 @@ export function ProfileTab({ isOpen }) {
                       setPhotoPreview("");
                       setForm((prev) => ({ ...prev, photoUrl: "" }));
                     }}
-                    className="rounded-xl border border-border px-3 py-2 text-xs text-muted-foreground hover:text-destructive cursor-pointer"
+                    className="rounded-xl border border-border px-3 py-2 text-xs text-muted-foreground hover:text-destructive cursor-pointer shrink-0"
                   >
                     <X className="size-3.5" />
                   </button>
@@ -447,12 +447,14 @@ export function ProfileTab({ isOpen }) {
               </div>
             </div>
 
-            <label className="inline-flex items-center gap-2 rounded-xl bg-surface-elevated border border-border px-4 py-2 text-xs font-semibold text-foreground hover:border-primary cursor-pointer transition-colors">
-              {uploadingPhoto ? <Loader2 className="size-3.5 text-primary animate-spin" /> : <Upload className="size-3.5 text-primary" />}
-              <span>{uploadingPhoto ? "Uploading to Cloudinary..." : "Upload Image to Cloudinary"}</span>
-              <input ref={photoInputRef} type="file" accept="image/*" onChange={handlePhotoFileUpload} className="hidden" disabled={uploadingPhoto} />
-            </label>
-            <p className="text-[0.65rem] text-muted-foreground">JPG, PNG, WebP • Max 10 MB</p>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <label className="inline-flex items-center justify-center gap-2 rounded-xl bg-surface-elevated border border-border px-4 py-2 text-xs font-semibold text-foreground hover:border-primary cursor-pointer transition-colors w-full sm:w-auto">
+                {uploadingPhoto ? <Loader2 className="size-3.5 text-primary animate-spin" /> : <Upload className="size-3.5 text-primary" />}
+                <span>{uploadingPhoto ? "Uploading to Cloudinary..." : "Upload Image to Cloudinary"}</span>
+                <input ref={photoInputRef} type="file" accept="image/*" onChange={handlePhotoFileUpload} className="hidden" disabled={uploadingPhoto} />
+              </label>
+              <span className="text-[0.65rem] text-muted-foreground text-center sm:text-left">JPG, PNG, WebP • Max 10 MB</span>
+            </div>
           </div>
         </div>
       </div>

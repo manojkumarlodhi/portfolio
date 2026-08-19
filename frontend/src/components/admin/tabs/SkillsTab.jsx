@@ -283,14 +283,14 @@ export function SkillsTab() {
   );
 
   return (
-    <div className="space-y-6 animate-rise">
+    <div className="space-y-5 sm:space-y-6 animate-rise">
       {/* ── Top Header ── */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
         <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-lg font-bold font-display">Manage Skills &amp; Categories</h3>
-            <span className="rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-xs font-semibold text-primary">
-              {totalSkillsCount} Skills across {skillGroups.length} Categories
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-base sm:text-lg font-bold font-display">Manage Skills &amp; Categories</h3>
+            <span className="rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-[0.7rem] sm:text-xs font-semibold text-primary">
+              {totalSkillsCount} Skills ({skillGroups.length} Categories)
             </span>
           </div>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -302,13 +302,13 @@ export function SkillsTab() {
           <button
             onClick={load}
             title="Refresh skills"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs text-muted-foreground hover:text-primary hover:border-primary cursor-pointer transition-colors"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs text-muted-foreground hover:text-primary hover:border-primary cursor-pointer transition-colors"
           >
             <RefreshCw className="size-3.5" />
           </button>
           <button
             onClick={() => handleOpenCategoryModal(null)}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-md cursor-pointer hover:scale-[1.02] transition-transform"
+            className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-md cursor-pointer hover:scale-[1.02] transition-transform"
           >
             <FolderPlus className="size-4" /> Add Category
           </button>
@@ -331,19 +331,19 @@ export function SkillsTab() {
       )}
 
       {/* ── Search Bar ── */}
-      <div className="relative max-w-md">
+      <div className="relative w-full max-w-md">
         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search categories or specific skills (e.g. Java, React, Docker)..."
-          className="w-full rounded-xl border border-border bg-background pl-10 pr-4 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none shadow-sm"
+          placeholder="Search categories or specific skills..."
+          className="w-full rounded-xl border border-border bg-background pl-10 pr-9 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none shadow-sm"
         />
         {searchTerm && (
           <button
             onClick={() => setSearchTerm("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1"
           >
             <X className="size-3.5" />
           </button>
@@ -352,10 +352,10 @@ export function SkillsTab() {
 
       {/* ── Category Modal (Create / Bulk Edit) ── */}
       {showCategoryModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3 sm:p-4">
           <form
             onSubmit={handleSaveCategory}
-            className="surface-card w-full max-w-lg space-y-4 p-6 border-primary/40 shadow-2xl rounded-2xl animate-rise"
+            className="surface-card w-full max-w-lg space-y-4 p-4 sm:p-6 border-primary/40 shadow-2xl rounded-2xl animate-rise mx-2 sm:mx-auto"
           >
             <div className="flex items-center justify-between border-b border-border pb-3">
               <h4 className="text-base font-bold font-display flex items-center gap-2">

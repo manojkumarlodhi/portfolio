@@ -63,44 +63,44 @@ export function MessagesTab() {
   const unreadCount = messages.filter((m) => !m.isRead).length;
 
   return (
-    <div className="space-y-6 animate-rise">
+    <div className="space-y-5 sm:space-y-6 animate-rise">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg font-bold font-display">
-            Inbox
-            <span className="ml-2 text-sm font-normal text-muted-foreground">({totalElements} total)</span>
+          <h3 className="text-base sm:text-lg font-bold font-display flex flex-wrap items-center gap-2">
+            <span>Inbox</span>
+            <span className="text-xs font-normal text-muted-foreground">({totalElements} total)</span>
             {unreadCount > 0 && (
-              <span className="ml-2 rounded-full bg-destructive px-2 py-0.5 text-[0.65rem] font-bold text-white">{unreadCount} unread</span>
+              <span className="rounded-full bg-destructive px-2 py-0.5 text-[0.65rem] font-bold text-white">{unreadCount} unread</span>
             )}
           </h3>
           <p className="text-xs text-muted-foreground">Messages from visitors via Contact form</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           {unreadCount > 0 && (
-            <button onClick={handleMarkAllRead} className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
-              <CheckCheck className="size-3.5" /> Mark All Read
+            <button onClick={handleMarkAllRead} className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors cursor-pointer">
+              <CheckCheck className="size-3.5" /> <span className="hidden xs:inline">Mark All Read</span>
             </button>
           )}
-          <button onClick={load} className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
-            <RefreshCw className="size-3.5" /> Refresh
+          <button onClick={load} className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors cursor-pointer" title="Refresh messages">
+            <RefreshCw className="size-3.5" />
           </button>
         </div>
       </div>
 
       {/* Search & Filter */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
         <input
           type="text"
           placeholder="Search by name, email, message..."
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(0); }}
-          className="flex-1 min-w-[220px] rounded-xl border border-border bg-background px-3.5 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
+          className="flex-1 w-full rounded-xl border border-border bg-background px-3.5 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
         />
         <select
           value={filterRead}
           onChange={(e) => { setFilterRead(e.target.value); setPage(0); }}
-          className="rounded-xl border border-border bg-background px-3.5 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
+          className="w-full sm:w-auto rounded-xl border border-border bg-background px-3.5 py-2 text-xs text-foreground focus:border-primary focus:outline-none cursor-pointer"
         >
           <option value="all">All Messages</option>
           <option value="unread">Unread Only</option>
@@ -111,7 +111,7 @@ export function MessagesTab() {
       {/* Loading */}
       {loading && (
         <div className="flex items-center justify-center py-12 text-muted-foreground gap-2">
-          <Loader2 className="size-5 animate-spin" /> Loading messages...
+          <Loader2 className="size-5 animate-spin text-primary" /> Loading messages...
         </div>
       )}
 
@@ -119,7 +119,7 @@ export function MessagesTab() {
 
       {/* Empty */}
       {!loading && messages.length === 0 && (
-        <div className="surface-card p-10 text-center text-muted-foreground">
+        <div className="surface-card p-8 sm:p-10 text-center text-muted-foreground">
           <Inbox className="mx-auto size-8 opacity-40" />
           <p className="mt-2 text-sm font-medium">No messages found.</p>
         </div>
@@ -131,36 +131,37 @@ export function MessagesTab() {
           {messages.map((m) => (
             <div
               key={m.id}
-              className={`surface-card p-5 transition-colors ${!m.isRead ? "border-primary/40 bg-primary/5" : ""}`}
+              className={`surface-card p-4 sm:p-5 transition-colors ${!m.isRead ? "border-primary/40 bg-primary/5" : ""}`}
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4">
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {!m.isRead && <span className="size-2 rounded-full bg-primary shrink-0" />}
                     <h4 className="text-sm font-bold text-foreground">{m.name}</h4>
-                    <a href={`mailto:${m.email}`} className="text-xs text-primary underline truncate">{m.email}</a>
+                    <a href={`mailto:${m.email}`} className="text-xs text-primary underline truncate max-w-xs">{m.email}</a>
                   </div>
                   <p className="mt-0.5 text-[0.65rem] font-mono text-muted-foreground">
                     {m.createdAt ? new Date(m.createdAt).toLocaleString("en-IN") : ""}
                   </p>
                 </div>
-                <div className="flex items-center gap-1 shrink-0">
+                <div className="flex items-center gap-1.5 self-end sm:self-start shrink-0">
                   <button
                     onClick={() => handleMarkRead(m.id, !m.isRead)}
-                    className="rounded px-2 py-1 text-[0.65rem] font-semibold text-muted-foreground hover:text-primary cursor-pointer border border-border"
+                    className="rounded px-2.5 py-1 text-[0.65rem] font-semibold text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors cursor-pointer border border-border"
                     title={m.isRead ? "Mark unread" : "Mark read"}
                   >
                     {m.isRead ? "Unread" : "Read"}
                   </button>
                   <button
                     onClick={() => handleDelete(m.id)}
-                    className="rounded p-1 text-muted-foreground hover:text-destructive cursor-pointer"
+                    className="rounded p-1 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+                    title="Delete message"
                   >
                     <Trash2 className="size-4" />
                   </button>
                 </div>
               </div>
-              <p className="mt-3 text-xs leading-relaxed text-muted-foreground bg-background/50 p-3 rounded-lg border border-border">
+              <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-foreground bg-background/50 p-3 rounded-lg border border-border break-words">
                 "{m.message}"
               </p>
             </div>

@@ -82,17 +82,18 @@ export function OrbitTab() {
   };
 
   return (
-    <div className="space-y-6 animate-rise">
+    <div className="space-y-5 sm:space-y-6 animate-rise">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg font-bold font-display">Spinning Tech Orbit Badges ({items.length})</h3>
+          <h3 className="text-base sm:text-lg font-bold font-display">Spinning Tech Orbit Badges ({items.length})</h3>
           <p className="text-xs text-muted-foreground">Manage animated technology bubbles rotating around the Hero photo</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <button
             onClick={load}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-primary cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+            title="Refresh badges"
           >
             <RefreshCw className="size-3.5" />
           </button>
@@ -103,7 +104,7 @@ export function OrbitTab() {
               setOrbitForm({ name: "", shortLabel: "" });
               setShowAddOrbit(true);
             }}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow cursor-pointer hover:scale-[1.02]"
+            className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow cursor-pointer hover:scale-[1.02] transition-transform"
           >
             <Plus className="size-4" /> Add Tech Badge
           </button>
@@ -113,13 +114,13 @@ export function OrbitTab() {
       {error && <p className="text-xs text-destructive">{error}</p>}
 
       {/* Sub tabs: Outer vs Inner */}
-      <div className="flex gap-3">
+      <div className="flex flex-col xs:flex-row gap-2 sm:gap-3">
         <button
           type="button"
           onClick={() => setOrbitTab("OUTER")}
-          className={`rounded-xl px-4 py-2 text-xs font-bold transition-colors cursor-pointer ${
+          className={`flex-1 sm:flex-initial rounded-xl px-4 py-2 text-xs font-bold transition-all text-center cursor-pointer ${
             orbitTab === "OUTER"
-              ? "bg-primary text-primary-foreground"
+              ? "bg-primary text-primary-foreground shadow-sm"
               : "border border-border bg-surface-elevated text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -128,9 +129,9 @@ export function OrbitTab() {
         <button
           type="button"
           onClick={() => setOrbitTab("INNER")}
-          className={`rounded-xl px-4 py-2 text-xs font-bold transition-colors cursor-pointer ${
+          className={`flex-1 sm:flex-initial rounded-xl px-4 py-2 text-xs font-bold transition-all text-center cursor-pointer ${
             orbitTab === "INNER"
-              ? "bg-accent text-accent-foreground"
+              ? "bg-accent text-accent-foreground shadow-sm"
               : "border border-border bg-surface-elevated text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -140,11 +141,11 @@ export function OrbitTab() {
 
       {/* Add/Edit Form */}
       {showAddOrbit && (
-        <form onSubmit={handleSaveOrbit} className="surface-card space-y-4 p-5 border-primary/40">
+        <form onSubmit={handleSaveOrbit} className="surface-card space-y-4 p-4 sm:p-5 border-primary/40">
           <h4 className="text-sm font-bold">
             {editingOrbitId ? "Edit Tech Badge" : `Add New Badge to ${orbitTab === "OUTER" ? "Outer" : "Inner"} Orbit`}
           </h4>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-xs font-medium text-muted-foreground">Full Tech Name</label>
               <input
@@ -169,18 +170,18 @@ export function OrbitTab() {
               />
             </div>
           </div>
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-2">
             <button
               type="button"
               onClick={() => setShowAddOrbit(false)}
-              className="rounded-xl border border-border px-4 py-1.5 text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+              className="rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground hover:text-foreground cursor-pointer text-center"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-1.5 text-xs font-semibold text-primary-foreground shadow cursor-pointer disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground shadow cursor-pointer disabled:opacity-60"
             >
               {saving && <Loader2 className="size-3.5 animate-spin" />} {saving ? "Saving..." : "Save Badge"}
             </button>
@@ -191,43 +192,44 @@ export function OrbitTab() {
       {/* Loading */}
       {loading && (
         <div className="flex items-center justify-center py-12 text-muted-foreground gap-2">
-          <Loader2 className="size-5 animate-spin" /> Loading badges...
+          <Loader2 className="size-5 animate-spin text-primary" /> Loading badges...
         </div>
       )}
 
       {/* Badge List */}
       {!loading && (
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {currentList.map((item) => (
-            <div key={item.id} className="surface-card flex items-center justify-between p-4">
-              <div className="flex items-center gap-3">
+            <div key={item.id} className="surface-card flex items-center justify-between p-3.5 sm:p-4">
+              <div className="flex items-center gap-3 min-w-0">
                 <span
-                  className={`grid size-10 place-items-center rounded-full border border-border font-mono text-xs font-bold ${
+                  className={`grid size-9 sm:size-10 shrink-0 place-items-center rounded-full border border-border font-mono text-xs font-bold ${
                     orbitTab === "OUTER" ? "bg-background text-primary" : "bg-surface-elevated text-accent"
                   }`}
                 >
                   {item.shortLabel || item.short}
                 </span>
-                <div>
-                  <p className="text-xs font-bold text-foreground">{item.name}</p>
+                <div className="min-w-0">
+                  <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
                   <span className="text-[0.65rem] text-muted-foreground">
                     {orbitTab === "OUTER" ? "Outer Ring" : "Inner Ring"}
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 shrink-0 ml-2">
                 <button
                   type="button"
                   onClick={() => handleEditOrbitClick(item)}
-                  className="rounded p-1 text-xs text-muted-foreground hover:text-primary cursor-pointer"
+                  className="rounded px-2 py-1 text-xs text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors cursor-pointer"
                 >
                   Edit
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDelete(item.id)}
-                  className="rounded p-1 text-xs text-muted-foreground hover:text-destructive cursor-pointer"
+                  className="rounded p-1 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+                  title="Delete badge"
                 >
                   <Trash2 className="size-3.5" />
                 </button>
