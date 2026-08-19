@@ -1,0 +1,8 @@
+target/
+.mvn/
+*.env
+.env
+.git/
+.idea/
+.vscode/
+uploads/
