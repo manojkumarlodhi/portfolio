@@ -62,10 +62,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Public Auth & Health Endpoints
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/system/**").permitAll()
-                        .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/", "/health", "/api/auth/**", "/api/system/**", "/actuator/**", "/uploads/**").permitAll()
 
                         // Public Portfolio Endpoints
                         .requestMatchers(HttpMethod.GET, "/api/portfolio/**").permitAll()
