@@ -31,8 +31,16 @@ export function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
       setEmail("");
       onLoginSuccess();
     } catch (err) {
-      const serverMessage =
-        err.response?.data?.message || err.message || "Invalid Email or Password. Please try again.";
+      let serverMessage = err.response?.data?.message;
+      if (!serverMessage) {
+        if (err.code === "ECONNABORTED" || err.message?.includes("timeout")) {
+          serverMessage = "Server connection timed out. Server might be waking up (Cold Start) — please try again in a few seconds.";
+        } else if (err.message === "Network Error") {
+          serverMessage = "Cannot connect to server. Please check backend URL and server status.";
+        } else {
+          serverMessage = err.message || "Invalid Email or Password. Please try again.";
+        }
+      }
       setError(serverMessage);
     } finally {
       setLoading(false);
