@@ -13,7 +13,6 @@ public class PortfolioApplication {
         // Load .env variables into System properties if present
         try {
             Dotenv dotenv = Dotenv.configure()
-                    .directory("./src/main/resources")
                     .ignoreIfMissing()
                     .load();
             dotenv.entries().forEach(entry -> {
@@ -21,9 +20,19 @@ public class PortfolioApplication {
                     System.setProperty(entry.getKey(), entry.getValue());
                 }
             });
-        } catch (Exception ignored) {
-            // Fallback gracefully if directory is different or already in environment
-        }
+        } catch (Exception ignored) {}
+
+        try {
+            Dotenv dotenvResources = Dotenv.configure()
+                    .directory("./src/main/resources")
+                    .ignoreIfMissing()
+                    .load();
+            dotenvResources.entries().forEach(entry -> {
+                if (System.getProperty(entry.getKey()) == null && System.getenv(entry.getKey()) == null) {
+                    System.setProperty(entry.getKey(), entry.getValue());
+                }
+            });
+        } catch (Exception ignored) {}
 
         SpringApplication.run(PortfolioApplication.class, args);
     }

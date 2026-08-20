@@ -43,11 +43,11 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setLinkedin(request.getLinkedin());
         profile.setGithub(request.getGithub());
 
-        if (request.getResumeUrl() != null) {
-            profile.setResumeUrl(request.getResumeUrl());
+        if (request.getResumeUrl() != null && !request.getResumeUrl().trim().isEmpty()) {
+            profile.setResumeUrl(request.getResumeUrl().trim());
         }
-        if (request.getPhotoUrl() != null) {
-            profile.setPhotoUrl(request.getPhotoUrl());
+        if (request.getPhotoUrl() != null && !request.getPhotoUrl().trim().isEmpty()) {
+            profile.setPhotoUrl(request.getPhotoUrl().trim());
         }
 
         return profileRepository.save(profile);

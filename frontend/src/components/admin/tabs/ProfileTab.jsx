@@ -59,7 +59,12 @@ export function ProfileTab({ isOpen }) {
     setSaving(true);
     setSaveError("");
     try {
-      const res = await profileApi.update(form);
+      const payload = {
+        ...form,
+        photoUrl: form.photoUrl || (photoPreview && !photoPreview.startsWith("data:") ? photoPreview : profile?.photoUrl) || "",
+        resumeUrl: form.resumeUrl || profile?.resumeUrl || "",
+      };
+      const res = await profileApi.update(payload);
       const updated = res.data?.data;
       updateProfile(updated);
       setSaved(true);

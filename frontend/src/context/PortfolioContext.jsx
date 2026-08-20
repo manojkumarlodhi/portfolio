@@ -5,7 +5,15 @@ import { portfolioApi } from "../api/portfolioApi";
 const PortfolioContext = createContext(null);
 
 export function PortfolioProvider({ children }) {
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState(() => {
+    try {
+      const cached = localStorage.getItem("cached_portfolio_data");
+      if (cached) {
+        return JSON.parse(cached);
+      }
+    } catch (e) {}
+    return initialData;
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,7 +25,7 @@ export function PortfolioProvider({ children }) {
       const res = await portfolioApi.getPortfolio();
       const serverData = res.data?.data;
       if (serverData) {
-        setData({
+        const freshData = {
           profile: serverData.profile || initialData.profile,
           photoUrl: serverData.profile?.photoUrl || null,
           orbitOuter: serverData.orbitOuter || initialData.orbitOuter,
@@ -28,12 +36,22 @@ export function PortfolioProvider({ children }) {
           projects: serverData.projects || initialData.projects,
           education: serverData.education || initialData.education,
           messages: [],
-        });
+        };
+        setData(freshData);
+        try {
+          localStorage.setItem("cached_portfolio_data", JSON.stringify(freshData));
+        } catch (e) {}
       }
     } catch (err) {
       console.warn("Backend unreachable, using local fallback data:", err.message);
-      setError("Backend offline — showing local data");
-      setData(initialData);
+      setError("Backend offline — showing cached/local data");
+      // Keep existing data or cached data instead of hard resetting to initialData
+      setData((prev) => {
+        if (prev && prev.profile && prev.profile.name) {
+          return prev;
+        }
+        return initialData;
+      });
     } finally {
       setLoading(false);
     }
