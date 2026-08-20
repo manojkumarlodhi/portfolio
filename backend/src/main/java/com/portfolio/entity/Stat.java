@@ -17,7 +17,7 @@ public class Stat extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String label;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "stat_value", nullable = false, length = 100)
     private String value;
 
     @Column(name = "display_order", nullable = false)

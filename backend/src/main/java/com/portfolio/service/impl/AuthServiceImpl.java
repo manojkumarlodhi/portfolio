@@ -37,12 +37,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public JwtResponse login(LoginRequest request) {
+        String normalizedEmail = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "";
+
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(normalizedEmail, request.getPassword())
         );
 
-        Admin admin = adminRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("Admin not found with email: " + request.getEmail()));
+        Admin admin = adminRepository.findByEmail(normalizedEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("Admin not found with email: " + normalizedEmail));
 
         String accessToken = jwtUtil.generateToken(admin.getEmail());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(admin);

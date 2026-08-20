@@ -7,25 +7,21 @@ spring:
     name: portfolio-backend
 
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/portfolio_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:manoj@123}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL:jdbc:h2:file:./data/portfolio_db;DB_CLOSE_DELAY=-1;MODE=MySQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
     hikari:
       maximum-pool-size: 10
-      minimum-idle: 5
+      minimum-idle: 2
       idle-timeout: 300000
       max-lifetime: 600000
-      connection-timeout: 20000
+      connection-timeout: 30000
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
     open-in-view: false
-    properties:
-      hibernate:
-        format_sql: false
 
   cache:
     type: caffeine
@@ -53,8 +49,8 @@ app:
     api-secret: ${CLOUDINARY_API_SECRET:dqUGGjEPclg_ClK3ofktBD_G6G0}
 
   admin:
-    email: ${ADMIN_EMAIL:admin@gmail.com}
-    password: ${ADMIN_PASSWORD:admin123}
+    email: ${ADMIN_EMAIL:manojlodhi0821@gmail.com}
+    password: ${ADMIN_PASSWORD:manoj@123}
 
   cors:
     allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173,http://localhost:8080}
